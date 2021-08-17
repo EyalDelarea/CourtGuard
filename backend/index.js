@@ -1,25 +1,43 @@
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const { buildSchema } = require("graphql");
+const path = require("path");
 
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.static(path.join(__dirname, "../frontend", "build")));
+app.use(express.static("public"));
+
+const events = [];
 
 const schema = buildSchema(`
+
+
+type Event {
+  _id: ID!
+  title: String!
+  description: String!
+  price: Float!
+  date: String!
+}
+
+input EventInput{
+  title: String!
+  description: String!
+  price: Float!
+}
+
   type RootQuery {
-      events:[String!]!
+      events: [Event!]
   }
 
   type RootMutation {
-    createEevent(name:String) : String
+    createEvent(eventInput: EventInput): Event
   }
 schema{
-  query:RootQuery
-  mutation:RootMutation
+  query: RootQuery
+  mutation: RootMutation
 }
 
 `);
@@ -27,19 +45,28 @@ schema{
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: { schema },
+    schema: schema,
     graphiql: true,
     rootValue: {
       events: () => {
-        return ["event,tstEvent,testEvent"];
+        return events;
       },
       createEvent: (args) => {
-        return "Thank you for creating an event" + args;
+        const event={
+          _id:Math.random().toString(),
+          title:args.eventInput.title,
+          description:args.eventInput.description,
+          price:args.eventInput.price,
+          date: new Date().toISOString
+        };
+        console.log(event)
+        events.push(event);
+        return event;
       },
     },
   })
 );
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Server is now running http://localhost:${port}`);
 });

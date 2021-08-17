@@ -67,8 +67,8 @@ display: flexbox;
   right:5px
 `;
 
-const Day = ['0', 'ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
-const Month = ['0', 'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצדמבר']
+const Day = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
+const Month = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצדמבר']
 
 const DateParser = () => {
     const time = new Date()
@@ -76,7 +76,7 @@ const DateParser = () => {
     const date = time.getDate();
     const month = Month[time.getMonth()]
     const year = time.getFullYear();
-    return "יום " + day + " ה-" + date + " ל " + month + " " + year
+    return "יום " + day + " ה-" + date + " ל" + month + " " + year
 }
 
 const CurrentDate = () => {
