@@ -119,6 +119,5 @@ dist
 backend/node_moudles
 frontend/node_moudles
 
-
-/backend/node_moudles
-/frontend/node_moudles
+frontend/public
+frontend/build
